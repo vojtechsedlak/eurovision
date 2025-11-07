@@ -1,15 +1,23 @@
 PHONY: github pudding
 
 github:
-	rm -rf docs
-	cp -r build docs
 	touch docs/.nojekyll
-	touch docs/CNAME 
-	echo "thefrackingtruth.ca" >> docs/CNAME
+	echo "primemembers.earth" > docs/CNAME
 	git add -A
 	git commit -m "update github pages"
 	git push
-	
+
+protect:
+	cd build && npx staticrypt --short index.html -p $(shell grep PASSWORD .env | cut -d '=' -f2) -d .
+
+staging: 
+	npm run build
+	make github
+
+production:
+	npm run build
+	make pudding
+
 # aws-sync:
 # 	aws s3 sync build s3://pudding.cool/year/month/name --delete --cache-control 'max-age=31536000'
 

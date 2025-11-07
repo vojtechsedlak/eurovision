@@ -1,8 +1,10 @@
 <script>
 	import { getContext } from "svelte";
 	const copy = getContext("copy");
+	const lang = getContext("lang");
 	
-  
+	// Determine current language from context
+	$: currentLanguage = lang || 'en';
 </script>
 
   <footer> 
@@ -10,7 +12,13 @@
 		<div class="row foot">
 			<div class="col-8 mx-auto">
 				<p><img src="/assets/favicon.png" alt="Eurovision Canada logo"></p>
-				<p>Eurovision Canada is a fan-driven community project aimed at connecting Eurovision fans across Canada.</p>
+				{#if currentLanguage === 'fr'}
+					<p>Eurovision Canada est un projet communautaire dirigé par des fans visant à connecter les fans d'Eurovision à travers le Canada.</p>
+					<p><a href="mailto:eurovisioncanada@proton.me">Contactez-nous</a></p>
+				{:else}
+					<p>Eurovision Canada is a fan-driven community project aimed at connecting Eurovision fans across Canada.</p>
+					<p><a href="mailto:eurovisioncanada@proton.me">Contact</a></p>
+				{/if}
 			</div>
 	</div>
 
@@ -26,7 +34,8 @@ footer {
 }
 
 footer a {
-	color:#fff;
+	color:#000;
+	padding-top:20px;
 	text-decoration:underline;
 }
 

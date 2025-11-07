@@ -1,4 +1,10 @@
 <script>
+	import { getContext } from "svelte";
+	const lang = getContext("lang");
+	
+	// Determine current language from context
+	$: currentLanguage = lang || 'en';
+	
 	let firstName = '';
 	let lastName = '';
 	let email = '';
@@ -119,21 +125,42 @@
 	<div class="container">
 		<div class="petition-content">
 			<div class="petition-text">
-				<h2>Why This Matters</h2>
-				<p>Canada has a deep, historic connection to Eurovision. From Céline Dion's iconic 1988 victory for Switzerland to Natasha St-Pier and La Zarra representing France, Canadian artists have already proven they belong on the Eurovision stage. Now it's time for Canada to compete under its own flag.</p>
-				
-				<p>With the Canadian federal government's 2026 budget allocating funds to explore Eurovision participation, and the EBU expressing excitement about continuing discussions with CBC, we have a historic opportunity to make this happen.</p>
+				{#if currentLanguage === 'fr'}
+					<h2>Pourquoi C'est Important</h2>
+					<p>Le Canada a une connexion profonde et historique avec l'Eurovision. De la victoire emblématique de Céline Dion en 1988 pour la Suisse à Natasha St-Pier et La Zarra représentant la France, les artistes canadiens ont déjà prouvé qu'ils appartiennent à la scène Eurovision. Il est maintenant temps que le Canada concourt sous son propre drapeau.</p>
+					
+					<p>Avec le budget fédéral canadien de 2026 allouant des fonds pour explorer la participation à l'Eurovision, et l'UER exprimant son enthousiasme à poursuivre les discussions avec CBC, nous avons une opportunité historique de faire que cela se réalise.</p>
 
-				<h3>What We're Asking For</h3>
-				<ul>
-				<li>We call on the <strong>European Broadcasting Union</strong> to extend a formal invitation to CBC/Radio-Canada to compete at Eurovision, recognizing Canada as a valued associate member ready to fully participate in this global celebration of music.</li>
-				
-				<li>We call on <strong>CBC/Radio-Canada</strong> to commit the resources necessary to select and send a world-class Canadian act to Eurovision, ensuring our country is represented with excellence and pride.</li>
-				
-				<li>We call on the <strong>Government of Canada</strong> to continue supporting this initiative financially and diplomatically, recognizing Eurovision as a powerful platform for cultural diplomacy and artistic expression.</li>
-				</ul>
-				
-				<h3>Why Canada Belongs at Eurovision</h3>
+					<h3>Ce Que Nous Demandons</h3>
+				{:else}
+					<h2>Why This Matters</h2>
+					<p>Canada has a deep, historic connection to Eurovision. From Céline Dion's iconic 1988 victory for Switzerland to Natasha St-Pier and La Zarra representing France, Canadian artists have already proven they belong on the Eurovision stage. Now it's time for Canada to compete under its own flag.</p>
+					
+					<p>With the Canadian federal government's 2026 budget allocating funds to explore Eurovision participation, and the EBU expressing excitement about continuing discussions with CBC, we have a historic opportunity to make this happen.</p>
+
+					<h3>What We're Asking For</h3>
+				{/if}
+				{#if currentLanguage === 'fr'}
+					<ul>
+					<li>Nous demandons à l'<strong>Union européenne de radiodiffusion</strong> d'étendre une invitation formelle à CBC/Radio-Canada pour concourir à l'Eurovision, reconnaissant le Canada comme un membre associé de valeur prêt à participer pleinement à cette célébration mondiale de la musique.</li>
+					
+					<li>Nous demandons à <strong>CBC/Radio-Canada</strong> de s'engager à consacrer les ressources nécessaires pour sélectionner et envoyer un artiste canadien de classe mondiale à l'Eurovision, en s'assurant que notre pays soit représenté avec excellence et fierté.</li>
+					
+					<li>Nous demandons au <strong>Gouvernement du Canada</strong> de continuer à soutenir cette initiative financièrement et diplomatiquement, reconnaissant l'Eurovision comme une plateforme puissante pour la diplomatie culturelle et l'expression artistique.</li>
+					</ul>
+					
+					<h3>Pourquoi le Canada Appartient à l'Eurovision</h3>
+				{:else}
+					<ul>
+					<li>We call on the <strong>European Broadcasting Union</strong> to extend a formal invitation to CBC/Radio-Canada to compete at Eurovision, recognizing Canada as a valued associate member ready to fully participate in this global celebration of music.</li>
+					
+					<li>We call on <strong>CBC/Radio-Canada</strong> to commit the resources necessary to select and send a world-class Canadian act to Eurovision, ensuring our country is represented with excellence and pride.</li>
+					
+					<li>We call on the <strong>Government of Canada</strong> to continue supporting this initiative financially and diplomatically, recognizing Eurovision as a powerful platform for cultural diplomacy and artistic expression.</li>
+					</ul>
+					
+					<h3>Why Canada Belongs at Eurovision</h3>
+				{/if}
 				
 				<p><strong>Cultural Diversity:</strong> Canada's multicultural identity mirrors Eurovision's celebration of diverse voices and styles. Our artists represent countless languages, genres, and traditions—exactly what Eurovision stands for.</p>
 				
@@ -161,26 +188,46 @@
 				<div class="form-wrapper">
 					
 					{#if !isSubmitted}
-						<h3>Sign the Petition</h3>
+						{#if currentLanguage === 'fr'}
+							<h3>Signer la Pétition</h3>
+						{:else}
+							<h3>Sign the Petition</h3>
+						{/if}
 						<div class="signature-counter">
 						<div class="counter-numbers">
 							<span class="current-count">{currentSignatures.toLocaleString()}</span>
-							<span class="target-count">of {targetSignatures.toLocaleString()} signatures</span>
+							{#if currentLanguage === 'fr'}
+								<span class="target-count">sur {targetSignatures.toLocaleString()} signatures</span>
+							{:else}
+								<span class="target-count">of {targetSignatures.toLocaleString()} signatures</span>
+							{/if}
 						</div>
 						<div class="progress-bar">
 							<div class="progress-fill" style="width: {progressPercentage}%"></div>
 						</div>
 						<div class="counter-message">
 							{#if progressPercentage >= 100}
-								🎉 Target reached! Keep the momentum going!
+								{#if currentLanguage === 'fr'}
+									🎉 Objectif atteint ! Maintenons l'élan !
+								{:else}
+									🎉 Target reached! Keep the momentum going!
+								{/if}
 							{:else}
-								Help us reach our goal!
+								{#if currentLanguage === 'fr'}
+									Aidez-nous à atteindre notre objectif !
+								{:else}
+									Help us reach our goal!
+								{/if}
 							{/if}
 						</div>
 					</div>
 						<form on:submit|preventDefault={handleSubmit}>
 							<div class="form-group">
-								<label for="firstName">First Name *</label>
+								{#if currentLanguage === 'fr'}
+									<label for="firstName">Prénom *</label>
+								{:else}
+									<label for="firstName">First Name *</label>
+								{/if}
 								<input 
 									type="text" 
 									id="firstName" 
@@ -191,7 +238,11 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="lastName">Last Name *</label>
+								{#if currentLanguage === 'fr'}
+									<label for="lastName">Nom de famille *</label>
+								{:else}
+									<label for="lastName">Last Name *</label>
+								{/if}
 								<input 
 									type="text" 
 									id="lastName" 
@@ -202,7 +253,11 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="email">Email *</label>
+								{#if currentLanguage === 'fr'}
+									<label for="email">Courriel *</label>
+								{:else}
+									<label for="email">Email *</label>
+								{/if}
 								<input 
 									type="email" 
 									id="email" 
@@ -213,7 +268,11 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="country">Country *</label>
+								{#if currentLanguage === 'fr'}
+									<label for="country">Pays *</label>
+								{:else}
+									<label for="country">Country *</label>
+								{/if}
 								<select 
 									id="country" 
 									bind:value={country} 
@@ -222,7 +281,11 @@
 								>
 									{#each countries as countryOption}
 										<option value={countryOption}>
-											{countryOption || 'Select your country...'}
+											{#if currentLanguage === 'fr'}
+												{countryOption || 'Sélectionnez votre pays...'}
+											{:else}
+												{countryOption || 'Select your country...'}
+											{/if}
 										</option>
 									{/each}
 								</select>
@@ -230,7 +293,11 @@
 							
 							{#if showPostalCode}
 								<div class="form-group">
-									<label for="postalCode">Postal Code *</label>
+									{#if currentLanguage === 'fr'}
+										<label for="postalCode">Code postal *</label>
+									{:else}
+										<label for="postalCode">Postal Code *</label>
+									{/if}
 									<input 
 										type="text" 
 										id="postalCode" 
@@ -251,47 +318,80 @@
 							
 							{#if submissionError}
 								<div class="error-message">
-									{submissionError}
+									{#if currentLanguage === 'fr'}
+										Il y a eu une erreur lors de la soumission de votre pétition. Veuillez réessayer.
+									{:else}
+										{submissionError}
+									{/if}
 								</div>
 							{/if}
 							
 							<button type="submit" class="submit-btn" disabled={isSubmitting}>
-								{isSubmitting ? 'Submitting...' : 'SIGN THE PETITION'}
+								{#if currentLanguage === 'fr'}
+									{isSubmitting ? 'Envoi...' : 'SIGNER LA PÉTITION'}
+								{:else}
+									{isSubmitting ? 'Submitting...' : 'SIGN THE PETITION'}
+								{/if}
 							</button>
-							<p style="font-size:0.8rem;text-align:center;"><i>We will protect your privacy and keep you updated on this campaign.</i></p>
+							{#if currentLanguage === 'fr'}
+								<p style="font-size:0.8rem;text-align:center;"><i>Nous protégerons votre vie privée et vous tiendrons au courant de cette campagne.</i></p>
+							{:else}
+								<p style="font-size:0.8rem;text-align:center;"><i>We will protect your privacy and keep you updated on this campaign.</i></p>
+							{/if}
 						</form>
 					{:else}
 						<div class="thank-you">
-							<h3>🎉 Thank You!</h3>
-							<p>Your signature has been added to the petition. Share this petition widely using <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong></p>
+							{#if currentLanguage === 'fr'}
+								<h3>🎉 Merci !</h3>
+								<p>Votre signature a été ajoutée à la pétition. Partagez cette pétition largement en utilisant <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong></p>
+							{:else}
+								<h3>🎉 Thank You!</h3>
+								<p>Your signature has been added to the petition. Share this petition widely using <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong></p>
+							{/if}
 							
 							<div class="share-buttons">
 								<button on:click={shareTwitter} class="share-btn twitter">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+										<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 713 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
 									</svg>
-									Share on Twitter
+									{#if currentLanguage === 'fr'}
+										Partager sur Twitter
+									{:else}
+										Share on Twitter
+									{/if}
 								</button>
 								
 								<button on:click={shareFacebook} class="share-btn facebook">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
 										<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
 									</svg>
-									Share on Facebook
+									{#if currentLanguage === 'fr'}
+										Partager sur Facebook
+									{:else}
+										Share on Facebook
+									{/if}
 								</button>
 								
 								<button on:click={shareLinkedIn} class="share-btn linkedin">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
 										<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
 									</svg>
-									Share on LinkedIn
+									{#if currentLanguage === 'fr'}
+										Partager sur LinkedIn
+									{:else}
+										Share on LinkedIn
+									{/if}
 								</button>
 								
 								<button on:click={copyLink} class="share-btn copy">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
 										<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
 									</svg>
-									Copy Link
+									{#if currentLanguage === 'fr'}
+										Copier le lien
+									{:else}
+										Copy Link
+									{/if}
 								</button>
 							</div>
 						</div>

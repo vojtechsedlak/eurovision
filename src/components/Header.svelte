@@ -22,26 +22,15 @@
 		let newPath = '/';
 		
 		if (newLang === 'fr') {
-			if (currentPath.includes('/giveaway')) {
-				newPath = '/fr/giveaway';
-			} else {
-				newPath = '/fr';
-			}
+			newPath = '/fr';
+
 		} else {
-			// English (default)
-			if (currentPath.includes('/giveaway')) {
-				newPath = '/giveaway';
-			} else {
 				newPath = '/';
-			}
 		}
 		
 		goto(newPath);
 	}
 	
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
 </script>
 
 
@@ -68,14 +57,22 @@
 		<div class="container-xxl">
 			<div class="hero row">
 				<div class="col-lg-5 col-md-12 col-sm-12 copy">
-					<p>CANADA</p>
-					<p>NEEDS</p>
-					<img src="/assets/banner.png" alt="Eurovision">
-					<p>NEEDS</p>
-					<p>CANADA</p>
+					{#if currentLanguage === 'fr'}
+						<p>LE CANADA</p>
+						<p>A BESOIN DE</p>
+						<img src="/assets/banner.png" alt="Eurovision">
+						<p>A BESOIN DU</p>
+						<p>CANADA</p>
+					{:else}
+						<p>CANADA</p>
+						<p>NEEDS</p>
+						<img src="/assets/banner.png" alt="Eurovision">
+						<p>NEEDS</p>
+						<p>CANADA</p>
+					{/if}
 				</div>
 				<div class="col-lg-7 col-md-12 col-sm-12">
-					<img src="/assets/artist.png" alt="Eurovision Canada">
+					<img src="/assets/artist.png" alt="{currentLanguage === 'fr' ? 'Eurovision Canada' : 'Eurovision Canada'}">
 				</div>
 			</div>
 		</div>
@@ -86,9 +83,10 @@
 	
 	
 	.language-toggle {
-		display: static;
+		position: absolute;
 		align-items: center;
-		float:right;
+		top:0;
+		right:0;
 		padding:20px;
 	}
 	
@@ -161,21 +159,7 @@
 		max-width:630px;
 	}
 
-	.truhla {
-		background:#fff;
-		max-width:200px;
-		margin:auto;
-		margin-top:20px;
-		border-radius:20px;
-		text-align:center;
-		font-family:"Quicksand";
-		font-size:2rem;
-	}
 
-	.truhla img {
-		max-width:80px;
-		margin:auto;
-	}
 	
 	/* Responsive Design */
 	@media (max-width: 968px) {
@@ -188,11 +172,13 @@
 		}
 		
 		.hero {
-			padding-top:50px;
+			padding-top:0px;
+			width:100%;
 		}
 
 		.copy {
-			padding-top:20px;
+			padding-top:0px;
+			width:100%;
 		}
 		
 		.hero p {
@@ -201,28 +187,4 @@
 		}
 	}
 	
-	@media (max-width: 640px) {
-		.nav-container {
-			padding: 0 15px;
-			height: 60px;
-		}
-		
-		.nav-logo img {
-			height: 35px;
-		}
-		
-		header {
-			margin-top: 60px;
-		}
-		
-		.offcanvas-menu {
-			width: 280px;
-			right: -280px;
-		}
-		
-		.hero p {
-			font-size: 2.5rem;
-			line-height: 2.5rem;
-		}
-	}
 </style>

@@ -1,9 +1,9 @@
 <script>
-	export let title = "Let's bring Canada to Eurovision!";
-	export let description = "Jágrova Koruna";
+	export let title = "Eurovision Canada";
+	export let description = "Let's bring Canada to Eurovision!";
 	export let url = "https://eurovisioncanada.ca";
 	export let keywords = "";
-	export let ogimage = "ogimage.jpg";
+	export let ogimage = "og.png";
 	export let slug = "";
 </script>
 
@@ -42,12 +42,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&display=swap" rel="stylesheet">
 	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGWYG9G4N1"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LHRSMN2PPP"></script>
 	<script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
 
-	gtag('config', 'G-HGWYG9G4N1');
+	gtag('config', 'G-LHRSMN2PPP');
 	</script>
 </svelte:head>

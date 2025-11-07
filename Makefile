@@ -1,6 +1,8 @@
 PHONY: github pudding
 
 github:
+	rm -rf docs
+	mv build docs
 	touch docs/.nojekyll
 	echo "eurovisioncanada.ca" > docs/CNAME
 	git add -A

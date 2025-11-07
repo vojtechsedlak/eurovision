@@ -18,5 +18,5 @@
 	setContext("lang", "en");
 </script>
 
-<Meta title={copy.en.Heading} description={copy.en.Description} {url} {keywords} />
+<Meta />
 <Index />

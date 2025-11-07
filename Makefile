@@ -4,6 +4,7 @@ github:
 	rm -rf docs
 	mv build docs
 	touch docs/.nojekyll
+	echo "eurovisioncanada.ca" > docs/CNAME
 	git add -A
 	git commit -m "update github pages"
 	git push

@@ -172,7 +172,7 @@
 		}
 		
 		.hero {
-			padding-top:0px;
+			padding-top:20px;
 			width:100%;
 		}
 

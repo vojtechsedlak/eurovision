@@ -133,7 +133,7 @@
 
 					<h3>Ce Que Nous Demandons</h3>
 				{:else}
-					<h2>Why This Matters</h2>
+					<h2>This Is Our Chance</h2>
 					<p>Canada has a deep, historic connection to Eurovision. From Céline Dion's iconic 1988 victory for Switzerland to Natasha St-Pier and La Zarra representing France, Canadian artists have already proven they belong on the Eurovision stage. Now it's time for Canada to compete under its own flag.</p>
 					
 					<p>With the Canadian federal government's 2026 budget allocating funds to explore Eurovision participation, and the EBU expressing excitement about continuing discussions with CBC, we have a historic opportunity to make this happen.</p>

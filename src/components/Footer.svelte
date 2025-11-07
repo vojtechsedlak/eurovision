@@ -15,9 +15,11 @@
 				{#if currentLanguage === 'fr'}
 					<p>Eurovision Canada est un projet communautaire dirigé par des fans visant à connecter les fans d'Eurovision à travers le Canada.</p>
 					<p><a href="mailto:eurovisioncanada@proton.me">Contactez-nous</a></p>
+					<p><a href="https://discord.gg/EN42KzANJz" target="_new">Join our Discord</a></p>
 				{:else}
 					<p>Eurovision Canada is a fan-driven community project aimed at connecting Eurovision fans across Canada.</p>
 					<p><a href="mailto:eurovisioncanada@proton.me">Contact</a></p>
+					<p><a href="https://discord.gg/EN42KzANJz" target="_new">Join our Discord</a></p>
 				{/if}
 			</div>
 	</div>

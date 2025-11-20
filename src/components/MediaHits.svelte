@@ -28,7 +28,7 @@
 	
 	onMount(async () => {
 		try {
-			const csvData = await loadCsv('/src/data/hits.csv');
+			const csvData = await loadCsv('/data/hits.csv');
 			// Sort by date (newest first) and process the data
 			mediaHitsData = csvData
 				.map(row => ({

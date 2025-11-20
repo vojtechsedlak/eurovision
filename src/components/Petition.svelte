@@ -54,8 +54,8 @@
 	// Reactive statement to show postal code only for Canada
 	$: showPostalCode = country === 'Canada';
 	
-	// Signature counter - use reactive store
-	$: currentSignatures = $signatures.count;
+	// Signature counter - use reactive store with fallback
+	$: currentSignatures = $signatures.count || 255;
 	let targetSignatures = 1000;
 	$: progressPercentage = (currentSignatures / targetSignatures) * 100;
 	

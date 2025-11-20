@@ -1,0 +1,21 @@
+# ArchieML Strings to Add to Google Doc
+# Add these to the {petition} section
+
+## English Read More/Less Buttons
+en.read_more: Read More
+en.read_less: Read Less
+
+## French Read More/Less Buttons  
+fr.read_more: Lire Plus
+fr.read_less: Lire Moins
+
+## Additional French Content (if missing from existing structure)
+# Note: The following may already exist in your doc, but including for completeness
+
+fr.cultural_diversity: <strong>Diversité culturelle :</strong> L'identité multiculturelle du Canada reflète la célébration de voix et de styles divers d'Eurovision. Nos artistes représentent d'innombrables langues, genres et traditions—exactement ce que représente Eurovision.
+fr.track_record: <strong>Historique prouvé :</strong> Les artistes canadiens ont déjà gagné Eurovision et ont concouru avec distinction. Nous savons comment livrer des performances de classe mondiale qui résonnent globalement.
+fr.public_broadcasting: <strong>Radiodiffusion publique forte :</strong> CBC/Radio-Canada est un diffuseur respecté avec l'expertise technique et le mandat culturel pour participer de manière significative à Eurovision, tout comme ABC d'Australie l'a fait depuis 2015.
+fr.expanding_family: <strong>Élargir la famille Eurovision :</strong> La participation de l'Australie depuis une décennie a montré qu'Eurovision peut accueillir avec succès des pays au-delà des frontières de l'Europe. Le Canada apporterait une énergie fraîche, un talent incroyable, et des millions de nouveaux téléspectateurs au concours.
+fr.economic_exchange: <strong>Échange économique et culturel :</strong> La participation du Canada renforcerait les liens culturels entre le Canada et l'Europe, stimulerait le tourisme, et présenterait les artistes canadiens à plus de 180 millions de téléspectateurs dans le monde.
+fr.time_paragraph1: La conversation a commencé. Martin Green, Directeur du Concours Eurovision de la chanson, a confirmé que l'UER est "enthousiaste" à propos de l'intérêt des diffuseurs et attend avec impatience de poursuivre les discussions avec CBC. Même le Premier ministre Mark Carney est personnellement impliqué dans cette poussée.
+fr.time_paragraph2: Mais nous avons besoin du soutien public pour transformer cette possibilité en réalité. Eurovision consiste à rassembler les gens à travers la musique—et les Canadiens sont prêts à faire partie de cette histoire.

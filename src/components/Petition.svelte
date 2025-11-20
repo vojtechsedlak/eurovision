@@ -1,5 +1,7 @@
 <script>
 	import { getContext } from "svelte";
+	import { signatures } from "$stores/signatures.js";
+	const copy = getContext("copy");
 	const lang = getContext("lang");
 	
 	// Determine current language from context
@@ -11,8 +13,12 @@
 	let country = '';
 	let postalCode = '';
 	let isSubmitting = false;
-	let isSubmitted = false;
 	let submissionError = '';
+	let isExpanded = false;
+	
+	function toggleExpanded() {
+		isExpanded = !isExpanded;
+	}
 	
 	// Complete list of countries
 	const countries = [
@@ -48,8 +54,8 @@
 	// Reactive statement to show postal code only for Canada
 	$: showPostalCode = country === 'Canada';
 	
-	// Signature counter
-	let currentSignatures = 255;
+	// Signature counter - use reactive store
+	$: currentSignatures = $signatures.count;
 	let targetSignatures = 1000;
 	$: progressPercentage = (currentSignatures / targetSignatures) * 100;
 	
@@ -77,325 +83,262 @@
 		formData.append('country', country);
 		formData.append('postalCode', postalCode);
 		formData.append('referralUrl', referralUrl);
+		formData.append('language', currentLanguage);
 		
 		try {
 			const response = await fetch('https://script.google.com/macros/s/AKfycbzZFU7ik8FAD1I2BAr1kdq2MnrUwqH_rwDG6T5OftErMmG_chfleB1iXoemluPZoB-XTw/exec', {
 				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'Accept': 'application/json',
+				},
 				body: formData
 			});
 			
 			if (response.ok) {
-				isSubmitted = true;
+				// Track petition submission conversion event
+				if (typeof gtag !== 'undefined') {
+					gtag('event', 'petition_submit', {
+						event_category: 'conversion',
+						event_label: 'Eurovision Canada Petition',
+						value: 1,
+						country: country,
+						language: currentLanguage
+					});
+				}
+				
+				// Redirect to get-started page
+				const getStartedUrl = currentLanguage === 'fr' ? '/fr/get-started' : '/get-started';
+				window.location.href = getStartedUrl;
 			} else {
-				throw new Error('Submission failed');
+				const responseText = await response.text();
+				console.error('Server response error:', response.status, responseText);
+				throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
 			}
 		} catch (error) {
-			submissionError = 'There was an error submitting your petition. Please try again.';
-			console.error('Submission error:', error);
+			console.error('Submission error details:', {
+				error: error.message,
+				stack: error.stack,
+				language: currentLanguage,
+				userAgent: navigator.userAgent
+			});
+			
+			if (error.name === 'TypeError' && error.message.includes('fetch')) {
+				submissionError = currentLanguage === 'fr' 
+					? 'Problème de connexion. Veuillez vérifier votre connexion Internet et réessayer.'
+					: 'Connection issue. Please check your internet connection and try again.';
+			} else {
+				submissionError = currentLanguage === 'fr'
+					? 'Une erreur s\'est produite lors de l\'envoi de votre pétition. Veuillez réessayer.'
+					: 'There was an error submitting your petition. Please try again.';
+			}
 		} finally {
 			isSubmitting = false;
 		}
 	}
 	
-	function shareTwitter() {
-		const text = "I just signed the petition to bring Canada to Eurovision! Join me and help make Canada part of Europe's biggest music celebration. #CanadaToEurovision #Eurovision2026";
-		const url = window.location.href;
-		window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
-	}
-	
-	function shareFacebook() {
-		const url = window.location.href;
-		window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-	}
-	
-	function shareLinkedIn() {
-		const url = window.location.href;
-		const title = "Bring Canada to Eurovision - Sign the Petition";
-		window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`, '_blank');
-	}
-	
-	function copyLink() {
-		navigator.clipboard.writeText(window.location.href).then(() => {
-			alert('Link copied to clipboard!');
-		});
-	}
 </script>
 
-<section class="petition">
+<!-- Enhanced semantic structure for better LLM understanding and accessibility -->
+<section class="petition" itemscope itemtype="https://schema.org/Petition" role="main" aria-labelledby="petition-heading">
 	<div class="container">
 		<div class="petition-content">
-			<div class="petition-text">
-				{#if currentLanguage === 'fr'}
-					<h2>Pourquoi C'est Important</h2>
-					<p>Le Canada a une connexion profonde et historique avec l'Eurovision. De la victoire emblématique de Céline Dion en 1988 pour la Suisse à Natasha St-Pier et La Zarra représentant la France, les artistes canadiens ont déjà prouvé qu'ils appartiennent à la scène Eurovision. Il est maintenant temps que le Canada concourt sous son propre drapeau.</p>
-					
-					<p>Avec le budget fédéral canadien de 2026 allouant des fonds pour explorer la participation à l'Eurovision, et l'UER exprimant son enthousiasme à poursuivre les discussions avec CBC, nous avons une opportunité historique de faire que cela se réalise.</p>
+			<!-- Main petition content with structured markup -->
+			<article class="petition-text" itemscope itemtype="https://schema.org/Article">
+				<header>
+					<h1 id="petition-heading" itemprop="headline" class="petition-title">{copy.petition[currentLanguage].main_heading}</h1>
+				</header>
+				
+				<!-- Introduction section -->
+				<section class="petition-intro" aria-labelledby="intro-heading">
+					<h2 id="intro-heading" class="visually-hidden">Introduction</h2>
+					<div itemprop="articleBody">
+						<p itemprop="description">{copy.petition[currentLanguage].intro_paragraph1}</p>
+						<p class="highlight-text">{@html copy.petition[currentLanguage].intro_paragraph2}</p>
+					</div>
+				</section>
 
-					<h3>Ce Que Nous Demandons</h3>
-				{:else}
-					<h2>This Is Our Chance</h2>
-					<p>Canada has a deep, historic connection to Eurovision. From Céline Dion's iconic 1988 victory for Switzerland to Natasha St-Pier and La Zarra representing France, Canadian artists have already proven they belong on the Eurovision stage. Now it's time for Canada to compete under its own flag.</p>
-					
-					<p>With the Canadian federal government's 2026 budget allocating funds to explore Eurovision participation, and the EBU expressing excitement about continuing discussions with CBC, we have a historic opportunity to make this happen.</p>
-
-					<h3>What We're Asking For</h3>
-				{/if}
-				{#if currentLanguage === 'fr'}
-					<ul>
-					<li>Nous demandons à l'<strong>Union européenne de radiodiffusion</strong> d'étendre une invitation formelle à CBC/Radio-Canada pour concourir à l'Eurovision, reconnaissant le Canada comme un membre associé de valeur prêt à participer pleinement à cette célébration mondiale de la musique.</li>
-					
-					<li>Nous demandons à <strong>CBC/Radio-Canada</strong> de s'engager à consacrer les ressources nécessaires pour sélectionner et envoyer un artiste canadien de classe mondiale à l'Eurovision, en s'assurant que notre pays soit représenté avec excellence et fierté.</li>
-					
-					<li>Nous demandons au <strong>Gouvernement du Canada</strong> de continuer à soutenir cette initiative financièrement et diplomatiquement, reconnaissant l'Eurovision comme une plateforme puissante pour la diplomatie culturelle et l'expression artistique.</li>
+				<!-- What we're asking for section -->
+				<section class="petition-demands" aria-labelledby="demands-heading" itemscope itemtype="https://schema.org/Demand">
+					<h2 id="demands-heading" class="section-heading" itemprop="name">{copy.petition[currentLanguage].what_asking_heading}</h2>
+					<ul role="list" class="demands-list" itemprop="text">
+						<li role="listitem" class="demand-item" data-target="ebu">
+							{@html copy.petition[currentLanguage].ask_ebu}
+						</li>
+						<li role="listitem" class="demand-item" data-target="cbc">
+							{@html copy.petition[currentLanguage].ask_cbc}
+						</li>
+						<li role="listitem" class="demand-item" data-target="government">
+							{@html copy.petition[currentLanguage].ask_government}
+						</li>
 					</ul>
-					
-					<h3>Pourquoi le Canada Appartient à l'Eurovision</h3>
-				{:else}
-					<ul>
-					<li>We call on the <strong>European Broadcasting Union</strong> to extend a formal invitation to CBC/Radio-Canada to compete at Eurovision, recognizing Canada as a valued associate member ready to fully participate in this global celebration of music.</li>
-					
-					<li>We call on <strong>CBC/Radio-Canada</strong> to commit the resources necessary to select and send a world-class Canadian act to Eurovision, ensuring our country is represented with excellence and pride.</li>
-					
-					<li>We call on the <strong>Government of Canada</strong> to continue supporting this initiative financially and diplomatically, recognizing Eurovision as a powerful platform for cultural diplomacy and artistic expression.</li>
-					</ul>
-					
-					<h3>Why Canada Belongs at Eurovision</h3>
+				</section>
+
+				{#if !isExpanded}
+					<button 
+						class="read-more-btn" 
+						on:click={toggleExpanded}
+						aria-expanded="false"
+						aria-controls="expanded-content"
+						aria-label="Show more details about why Canada belongs at Eurovision"
+					>
+						{copy.petition[currentLanguage].read_more || 'Read More'}
+					</button>
+				{/if}
+
+				{#if isExpanded}
+					<div id="expanded-content" class="expanded-content" aria-live="polite">
+						<!-- Why Canada belongs section -->
+						<section class="petition-rationale" aria-labelledby="rationale-heading">
+							<h2 id="rationale-heading" class="section-heading">{copy.petition[currentLanguage].why_canada_heading}</h2>
+							
+							<div class="rationale-points">
+								<div class="rationale-point" data-point="diversity">
+									<p>{@html copy.petition[currentLanguage].cultural_diversity}</p>
+								</div>
+								<div class="rationale-point" data-point="track-record">
+									<p>{@html copy.petition[currentLanguage].track_record}</p>
+								</div>
+								<div class="rationale-point" data-point="broadcasting">
+									<p>{@html copy.petition[currentLanguage].public_broadcasting}</p>
+								</div>
+								<div class="rationale-point" data-point="expansion">
+									<p>{@html copy.petition[currentLanguage].expanding_family}</p>
+								</div>
+								<div class="rationale-point" data-point="exchange">
+									<p>{@html copy.petition[currentLanguage].economic_exchange}</p>
+								</div>
+							</div>
+						</section>
+						
+						<!-- Urgency section -->
+						<section class="petition-urgency" aria-labelledby="urgency-heading">
+							<h2 id="urgency-heading" class="section-heading">{copy.petition[currentLanguage].time_is_now_heading}</h2>
+							<p class="urgency-text">{copy.petition[currentLanguage].time_paragraph1}</p>
+							<p class="urgency-text">{copy.petition[currentLanguage].time_paragraph2}</p>
+						</section>
+
+						<button 
+							class="read-less-btn" 
+							on:click={toggleExpanded}
+							aria-expanded="true"
+							aria-controls="expanded-content"
+							aria-label="Show less details"
+						>
+							{copy.petition[currentLanguage].read_less || 'Read Less'}
+						</button>
+					</div>
 				{/if}
 				
-				<p><strong>Cultural Diversity:</strong> Canada's multicultural identity mirrors Eurovision's celebration of diverse voices and styles. Our artists represent countless languages, genres, and traditions—exactly what Eurovision stands for.</p>
-				
-				<p><strong>Proven Track Record:</strong> Canadian artists have already won Eurovision and competed with distinction. We know how to deliver world-class performances that resonate globally.</p>
-				
-				<p><strong>Strong Public Broadcasting:</strong> CBC/Radio-Canada is a respected broadcaster with the technical expertise and cultural mandate to participate meaningfully in Eurovision, just as Australia's ABC has done since 2015.</p>
-				
-				<p><strong>Expanding the Eurovision Family:</strong> Australia's decade-long participation has shown that Eurovision can successfully welcome countries beyond Europe's borders. Canada would bring fresh energy, incredible talent, and millions of new viewers to the contest.</p>
-				
-				<p><strong>Economic and Cultural Exchange:</strong> Canada's participation would strengthen cultural ties between Canada and Europe, boost tourism, and showcase Canadian artists to over 180 million viewers worldwide.</p>
-				
-				<h3>The Time Is Now</h3>
-				
-				<p>The conversation has begun. Martin Green, Eurovision Song Contest Director, has confirmed that the EBU is "excited" about broadcaster interest and looks forward to continuing discussions with CBC. Even Prime Minister Mark Carney is personally involved in this push.</p>
-				
-				<p>But we need public support to turn this possibility into reality. Eurovision is about bringing people together through music—and Canadians are ready to be part of that story.</p>
-				
-				<h3><strong>Sign this petition to show that Canada wants Eurovision, and Eurovision wants Canada.</strong></h3>
-			
-
-				
-			</div>
+				<!-- Call to action -->
+				<section class="petition-cta" aria-labelledby="cta-heading">
+					<h2 id="cta-heading" class="call-to-action" itemprop="potentialAction" itemscope itemtype="https://schema.org/Action">
+						{@html copy.petition[currentLanguage].call_to_action}
+					</h2>
+				</section>
+			</article>
 			
 			<div class="petition-form">
 				<div class="form-wrapper">
-					
-					{#if !isSubmitted}
-						{#if currentLanguage === 'fr'}
-							<h3>Signer la Pétition</h3>
-						{:else}
-							<h3>Sign the Petition</h3>
-						{/if}
-						<div class="signature-counter">
-						<div class="counter-numbers">
-							<span class="current-count">{currentSignatures.toLocaleString()}</span>
-							{#if currentLanguage === 'fr'}
-								<span class="target-count">sur {targetSignatures.toLocaleString()} signatures</span>
-							{:else}
-								<span class="target-count">of {targetSignatures.toLocaleString()} signatures</span>
-							{/if}
-						</div>
-						<div class="progress-bar">
-							<div class="progress-fill" style="width: {progressPercentage}%"></div>
-						</div>
-						<div class="counter-message">
-							{#if progressPercentage >= 100}
-								{#if currentLanguage === 'fr'}
-									🎉 Objectif atteint ! Maintenons l'élan !
-								{:else}
-									🎉 Target reached! Keep the momentum going!
-								{/if}
-							{:else}
-								{#if currentLanguage === 'fr'}
-									Aidez-nous à atteindre notre objectif !
-								{:else}
-									Help us reach our goal!
-								{/if}
-							{/if}
-						</div>
+					<h3>{copy.form[currentLanguage].form_heading}</h3>
+					<div class="signature-counter">
+					<div class="counter-numbers">
+						<span class="current-count">{currentSignatures.toLocaleString()}</span>
+						<span class="target-count">{copy.form[currentLanguage].signature_counter.replace('1,000', targetSignatures.toLocaleString())}</span>
 					</div>
-						<form on:submit|preventDefault={handleSubmit}>
-							<div class="form-group">
-								{#if currentLanguage === 'fr'}
-									<label for="firstName">Prénom *</label>
-								{:else}
-									<label for="firstName">First Name *</label>
-								{/if}
-								<input 
-									type="text" 
-									id="firstName" 
-									bind:value={firstName} 
-									required 
-									disabled={isSubmitting}
-								/>
-							</div>
-							
-							<div class="form-group">
-								{#if currentLanguage === 'fr'}
-									<label for="lastName">Nom de famille *</label>
-								{:else}
-									<label for="lastName">Last Name *</label>
-								{/if}
-								<input 
-									type="text" 
-									id="lastName" 
-									bind:value={lastName} 
-									required 
-									disabled={isSubmitting}
-								/>
-							</div>
-							
-							<div class="form-group">
-								{#if currentLanguage === 'fr'}
-									<label for="email">Courriel *</label>
-								{:else}
-									<label for="email">Email *</label>
-								{/if}
-								<input 
-									type="email" 
-									id="email" 
-									bind:value={email} 
-									required 
-									disabled={isSubmitting}
-								/>
-							</div>
-							
-							<div class="form-group">
-								{#if currentLanguage === 'fr'}
-									<label for="country">Pays *</label>
-								{:else}
-									<label for="country">Country *</label>
-								{/if}
-								<select 
-									id="country" 
-									bind:value={country} 
-									required 
-									disabled={isSubmitting}
-								>
-									{#each countries as countryOption}
-										<option value={countryOption}>
-											{#if currentLanguage === 'fr'}
-												{countryOption || 'Sélectionnez votre pays...'}
-											{:else}
-												{countryOption || 'Select your country...'}
-											{/if}
-										</option>
-									{/each}
-								</select>
-							</div>
-							
-							{#if showPostalCode}
-								<div class="form-group">
-									{#if currentLanguage === 'fr'}
-										<label for="postalCode">Code postal *</label>
-									{:else}
-										<label for="postalCode">Postal Code *</label>
-									{/if}
-									<input 
-										type="text" 
-										id="postalCode" 
-										bind:value={postalCode} 
-										required 
-										disabled={isSubmitting}
-										placeholder="A1A 1A1"
-									/>
-								</div>
-							{/if}
-							
-							<!-- Hidden referral URL field -->
+					<div class="progress-bar">
+						<div class="progress-fill" style="width: {progressPercentage}%"></div>
+					</div>
+					<div class="counter-message">
+						{#if progressPercentage >= 100}
+							{copy.form[currentLanguage].goal_reached}
+						{:else}
+							{copy.form[currentLanguage].help_goal}
+						{/if}
+					</div>
+				</div>
+					<form on:submit|preventDefault={handleSubmit}>
+						<div class="form-group">
+							<label for="firstName">{copy.form[currentLanguage].first_name}</label>
 							<input 
-								type="hidden" 
-								name="referralUrl" 
-								bind:value={referralUrl}
+								type="text" 
+								id="firstName" 
+								bind:value={firstName} 
+								required 
+								disabled={isSubmitting}
 							/>
-							
-							{#if submissionError}
-								<div class="error-message">
-									{#if currentLanguage === 'fr'}
-										Il y a eu une erreur lors de la soumission de votre pétition. Veuillez réessayer.
-									{:else}
-										{submissionError}
-									{/if}
-								</div>
-							{/if}
-							
-							<button type="submit" class="submit-btn" disabled={isSubmitting}>
-								{#if currentLanguage === 'fr'}
-									{isSubmitting ? 'Envoi...' : 'SIGNER LA PÉTITION'}
-								{:else}
-									{isSubmitting ? 'Submitting...' : 'SIGN THE PETITION'}
-								{/if}
-							</button>
-							{#if currentLanguage === 'fr'}
-								<p style="font-size:0.8rem;text-align:center;"><i>Nous protégerons votre vie privée et vous tiendrons au courant de cette campagne.</i></p>
-							{:else}
-								<p style="font-size:0.8rem;text-align:center;"><i>We will protect your privacy and keep you updated on this campaign.</i></p>
-							{/if}
-						</form>
-					{:else}
-						<div class="thank-you">
-							{#if currentLanguage === 'fr'}
-								<h3>🎉 Merci !</h3>
-								<p>Votre signature a été ajoutée à la pétition. Partagez cette pétition largement en utilisant <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong></p>
-							{:else}
-								<h3>🎉 Thank You!</h3>
-								<p>Your signature has been added to the petition. Share this petition widely using <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong></p>
-							{/if}
-							
-							<div class="share-buttons">
-								<button on:click={shareTwitter} class="share-btn twitter">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 713 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-									</svg>
-									{#if currentLanguage === 'fr'}
-										Partager sur Twitter
-									{:else}
-										Share on Twitter
-									{/if}
-								</button>
-								
-								<button on:click={shareFacebook} class="share-btn facebook">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-									</svg>
-									{#if currentLanguage === 'fr'}
-										Partager sur Facebook
-									{:else}
-										Share on Facebook
-									{/if}
-								</button>
-								
-								<button on:click={shareLinkedIn} class="share-btn linkedin">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-									</svg>
-									{#if currentLanguage === 'fr'}
-										Partager sur LinkedIn
-									{:else}
-										Share on LinkedIn
-									{/if}
-								</button>
-								
-								<button on:click={copyLink} class="share-btn copy">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-									</svg>
-									{#if currentLanguage === 'fr'}
-										Copier le lien
-									{:else}
-										Copy Link
-									{/if}
-								</button>
-							</div>
 						</div>
-					{/if}
+						
+						<div class="form-group">
+							<label for="lastName">{copy.form[currentLanguage].last_name}</label>
+							<input 
+								type="text" 
+								id="lastName" 
+								bind:value={lastName} 
+								required 
+								disabled={isSubmitting}
+							/>
+						</div>
+						
+						<div class="form-group">
+							<label for="email">{copy.form[currentLanguage].email}</label>
+							<input 
+								type="email" 
+								id="email" 
+								bind:value={email} 
+								required 
+								disabled={isSubmitting}
+							/>
+						</div>
+						
+						<div class="form-group">
+							<label for="country">{copy.form[currentLanguage].country}</label>
+							<select 
+								id="country" 
+								bind:value={country} 
+								required 
+								disabled={isSubmitting}
+							>
+								{#each countries as countryOption}
+									<option value={countryOption}>
+										{countryOption || copy.form[currentLanguage].country_placeholder}
+									</option>
+								{/each}
+							</select>
+						</div>
+						
+						{#if showPostalCode}
+							<div class="form-group">
+								<label for="postalCode">{copy.form[currentLanguage].postal_code}</label>
+								<input 
+									type="text" 
+									id="postalCode" 
+									bind:value={postalCode} 
+									required 
+									disabled={isSubmitting}
+									placeholder={copy.form[currentLanguage].postal_code_placeholder}
+								/>
+							</div>
+						{/if}
+						
+						<!-- Hidden referral URL field -->
+						<input 
+							type="hidden" 
+							name="referralUrl" 
+							bind:value={referralUrl}
+						/>
+						
+						{#if submissionError}
+							<div class="error-message">
+								{copy.form[currentLanguage].error_message}
+							</div>
+						{/if}
+						
+						<button type="submit" class="submit-btn" disabled={isSubmitting}>
+							{isSubmitting ? copy.form[currentLanguage].submit_loading : copy.form[currentLanguage].submit_button}
+						</button>
+						<p style="font-size:0.8rem;text-align:center;"><i>{copy.form[currentLanguage].privacy_notice}</i></p>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -403,7 +346,7 @@
 </section>
 
 <style>
-    .petition h2, .petition h3 {
+    .petition h1, .petition h2, .petition h3 {
 		font-family: "Lilita One", sans-serif;
     }
 
@@ -411,6 +354,81 @@
 		padding: 60px 0;
         font-family:"Inter";
 		background: #fff;
+	}
+	
+	/* Accessibility helper for screen readers */
+	.visually-hidden {
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		padding: 0 !important;
+		margin: -1px !important;
+		overflow: hidden !important;
+		clip: rect(0, 0, 0, 0) !important;
+		white-space: nowrap !important;
+		border: 0 !important;
+	}
+	
+	/* Enhanced semantic styling */
+	.petition-title {
+		font-size: 2.5rem;
+		margin-bottom: 20px;
+		color: #333;
+	}
+	
+	.section-heading {
+		font-size: 1.8rem;
+		margin: 30px 0 15px;
+		color: #333;
+	}
+	
+	.demands-list {
+		list-style: none;
+		padding-left: 0;
+		counter-reset: demand-counter;
+	}
+	
+	.demand-item {
+		counter-increment: demand-counter;
+		position: relative;
+		padding-left: 2.5rem;
+		margin-bottom: 1.2rem;
+		padding: 0.5rem 0 0.5rem 2.5rem;
+	}
+	
+	.demand-item::before {
+		content: counter(demand-counter);
+		position: absolute;
+		left: 0;
+		top: 0.5rem;
+		background: #d32f2f;
+		color: white;
+		border-radius: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 0.8rem;
+	}
+	
+	.rationale-points {
+		display: grid;
+	}
+	
+	.urgency-text {
+		font-style: normal;
+		margin-bottom: 1rem;
+	}
+	
+	.expanded-content {
+		animation: fadeIn 0.3s ease-in-out;
+	}
+	
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(-10px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 	
 	.container {
@@ -615,77 +633,41 @@
 		border: 1px solid #ef9a9a;
 	}
 	
-	.thank-you {
-		text-align: center;
-	}
 	
-	.thank-you h3 {
-		font-size: 1.8rem;
-		margin-bottom: 15px;
-		color: #333;
-	}
-	
-	.thank-you p {
-		margin-bottom: 25px;
-		color: #555;
-		line-height: 1.6;
-	}
-	
-	.share-buttons {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
-	
-	.share-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-		padding: 12px 20px;
+	.read-more-btn,
+	.read-less-btn {
+		background: none;
 		border: none;
-		border-radius: 8px;
+		padding: 0;
 		font-size: 0.95rem;
 		font-weight: 600;
 		cursor: pointer;
-		transition: all 0.3s ease;
-		text-decoration: none;
+		transition: color 0.3s ease;
+		margin: 20px 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 	}
 	
-	.share-btn.twitter {
-		background: #1da1f2;
-		color: white;
+	.read-more-btn:hover,
+	.read-less-btn:hover {
+		text-decoration:underline;
 	}
 	
-	.share-btn.twitter:hover {
-		background: #0d8bd9;
+	.read-more-btn::after {
+		content: '▼';
+		font-size: 0.8rem;
 	}
 	
-	.share-btn.facebook {
-		background: #4267B2;
-		color: white;
+	.read-less-btn::after {
+		content: '▲';
+		font-size: 0.8rem;
 	}
 	
-	.share-btn.facebook:hover {
-		background: #365899;
-	}
-	
-	.share-btn.linkedin {
-		background: #2867B2;
-		color: white;
-	}
-	
-	.share-btn.linkedin:hover {
-		background: #1a5490;
-	}
-	
-	.share-btn.copy {
-		background: #6c757d;
-		color: white;
-	}
-	
-	.share-btn.copy:hover {
-		background: #545b62;
+	.call-to-action {
+		margin-top: 30px;
+		padding-top: 20px;
+		border-top: 2px solid #eee;
 	}
 	
 	@media (max-width: 968px) {

@@ -1,0 +1,167 @@
+// Eurovision Canada Content - ArchieML Format
+// This file contains all content extracted from the Eurovision Canada website
+// structured for Google Docs editing workflow
+
+{meta}
+// Base meta information
+url: https://eurovisioncanada.ca
+keywords: Eurovision, Canada, music competition, petition, EBU, CBC, Radio-Canada
+
+// English meta content
+en.title: Eurovision Canada - Bring Canada to Eurovision
+en.description: Let's bring Canada to Eurovision! Sign the petition to show support for Canada's participation in Europe's biggest music celebration.
+en.ogimage: og.png
+
+// French meta content
+fr.title: Eurovision Canada - Amenons le Canada à l'Eurovision
+fr.description: Amenons le Canada à l'Eurovision ! Signez la pétition pour montrer votre soutien à la participation du Canada à la plus grande célébration musicale d'Europe.
+fr.ogimage: og.png
+{}
+
+{header}
+// English header content
+en.hero.line1: CANADA
+en.hero.line2: NEEDS
+en.hero.line3: EUROVISION
+en.hero.line4: NEEDS
+en.hero.line5: CANADA
+en.alt_text: Eurovision Canada
+
+// French header content
+fr.hero.line1: LE CANADA
+fr.hero.line2: A BESOIN DE
+fr.hero.line3: EUROVISION
+fr.hero.line4: A BESOIN DU
+fr.hero.line5: CANADA
+fr.alt_text: Eurovision Canada
+
+// Language toggle
+language_toggle.en: EN
+language_toggle.fr: FR
+language_toggle.separator: |
+{}
+
+{petition}
+// English petition content
+en.main_heading: This Is Our Chance
+en.intro_paragraph1: Canada has a deep, historic connection to Eurovision. From Céline Dion's iconic 1988 victory for Switzerland to Natasha St-Pier and La Zarra representing France, Canadian artists have already proven they belong on the Eurovision stage. Now it's time for Canada to compete under its own flag.
+en.intro_paragraph2: With the Canadian federal government's 2026 budget allocating funds to explore Eurovision participation, and the EBU expressing excitement about continuing discussions with CBC, we have a historic opportunity to make this happen.
+
+en.what_asking_heading: What We're Asking For
+en.ask_ebu: We call on the <strong>European Broadcasting Union</strong> to extend a formal invitation to CBC/Radio-Canada to compete at Eurovision, recognizing Canada as a valued associate member ready to fully participate in this global celebration of music.
+en.ask_cbc: We call on <strong>CBC/Radio-Canada</strong> to commit the resources necessary to select and send a world-class Canadian act to Eurovision, ensuring our country is represented with excellence and pride.
+en.ask_government: We call on the <strong>Government of Canada</strong> to continue supporting this initiative financially and diplomatically, recognizing Eurovision as a powerful platform for cultural diplomacy and artistic expression.
+
+en.why_canada_heading: Why Canada Belongs at Eurovision
+en.cultural_diversity: <strong>Cultural Diversity:</strong> Canada's multicultural identity mirrors Eurovision's celebration of diverse voices and styles. Our artists represent countless languages, genres, and traditions—exactly what Eurovision stands for.
+en.track_record: <strong>Proven Track Record:</strong> Canadian artists have already won Eurovision and competed with distinction. We know how to deliver world-class performances that resonate globally.
+en.public_broadcasting: <strong>Strong Public Broadcasting:</strong> CBC/Radio-Canada is a respected broadcaster with the technical expertise and cultural mandate to participate meaningfully in Eurovision, just as Australia's ABC has done since 2015.
+en.expanding_family: <strong>Expanding the Eurovision Family:</strong> Australia's decade-long participation has shown that Eurovision can successfully welcome countries beyond Europe's borders. Canada would bring fresh energy, incredible talent, and millions of new viewers to the contest.
+en.economic_exchange: <strong>Economic and Cultural Exchange:</strong> Canada's participation would strengthen cultural ties between Canada and Europe, boost tourism, and showcase Canadian artists to over 180 million viewers worldwide.
+
+en.time_is_now_heading: The Time Is Now
+en.time_paragraph1: The conversation has begun. Martin Green, Eurovision Song Contest Director, has confirmed that the EBU is "excited" about broadcaster interest and looks forward to continuing discussions with CBC. Even Prime Minister Mark Carney is personally involved in this push.
+en.time_paragraph2: But we need public support to turn this possibility into reality. Eurovision is about bringing people together through music—and Canadians are ready to be part of that story.
+
+en.call_to_action: <strong>Sign this petition to show that Canada wants Eurovision, and Eurovision wants Canada.</strong>
+
+// French petition content
+fr.main_heading: Pourquoi C'est Important
+fr.intro_paragraph1: Le Canada a une connexion profonde et historique avec l'Eurovision. De la victoire emblématique de Céline Dion en 1988 pour la Suisse à Natasha St-Pier et La Zarra représentant la France, les artistes canadiens ont déjà prouvé qu'ils appartiennent à la scène Eurovision. Il est maintenant temps que le Canada concourt sous son propre drapeau.
+fr.intro_paragraph2: Avec le budget fédéral canadien de 2026 allouant des fonds pour explorer la participation à l'Eurovision, et l'UER exprimant son enthousiasme à poursuivre les discussions avec CBC, nous avons une opportunité historique de faire que cela se réalise.
+
+fr.what_asking_heading: Ce Que Nous Demandons
+fr.ask_ebu: Nous demandons à l'<strong>Union européenne de radiodiffusion</strong> d'étendre une invitation formelle à CBC/Radio-Canada pour concourir à l'Eurovision, reconnaissant le Canada comme un membre associé de valeur prêt à participer pleinement à cette célébration mondiale de la musique.
+fr.ask_cbc: Nous demandons à <strong>CBC/Radio-Canada</strong> de s'engager à consacrer les ressources nécessaires pour sélectionner et envoyer un artiste canadien de classe mondiale à l'Eurovision, en s'assurant que notre pays soit représenté avec excellence et fierté.
+fr.ask_government: Nous demandons au <strong>Gouvernement du Canada</strong> de continuer à soutenir cette initiative financièrement et diplomatiquement, reconnaissant l'Eurovision comme une plateforme puissante pour la diplomatie culturelle et l'expression artistique.
+
+fr.why_canada_heading: Pourquoi le Canada Appartient à l'Eurovision
+{}
+
+{form}
+// Form labels and content
+en.form_heading: Sign the Petition
+en.first_name: First Name *
+en.last_name: Last Name *
+en.email: Email *
+en.country: Country *
+en.postal_code: Postal Code *
+en.country_placeholder: Select your country...
+en.postal_code_placeholder: A1A 1A1
+en.submit_button: SIGN THE PETITION
+en.submit_loading: Submitting...
+en.privacy_notice: We will protect your privacy and keep you updated on this campaign.
+en.signature_counter: of 1,000 signatures
+en.goal_reached: 🎉 Target reached! Keep the momentum going!
+en.help_goal: Help us reach our goal!
+
+fr.form_heading: Signer la Pétition  
+fr.first_name: Prénom *
+fr.last_name: Nom de famille *
+fr.email: Courriel *
+fr.country: Pays *
+fr.postal_code: Code postal *
+fr.country_placeholder: Sélectionnez votre pays...
+fr.postal_code_placeholder: A1A 1A1
+fr.submit_button: SIGNER LA PÉTITION
+fr.submit_loading: Envoi...
+fr.privacy_notice: Nous protégerons votre vie privée et vous tiendrons au courant de cette campagne.
+fr.signature_counter: sur 1 000 signatures
+fr.goal_reached: 🎉 Objectif atteint ! Maintenons l'élan !
+fr.help_goal: Aidez-nous à atteindre notre objectif !
+
+// Success page content
+en.thank_you_heading: 🎉 Thank You!
+en.thank_you_message: Your signature has been added to the petition. Share this petition widely using <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong>
+
+fr.thank_you_heading: 🎉 Merci !
+fr.thank_you_message: Votre signature a été ajoutée à la pétition. Partagez cette pétition largement en utilisant <strong>#CanadaToEurovision #Eurovision2026 #EurovisionCanada</strong>
+
+// Share buttons
+en.share_twitter: Share on Twitter
+en.share_facebook: Share on Facebook
+en.share_linkedin: Share on LinkedIn
+en.share_copy: Copy Link
+
+fr.share_twitter: Partager sur Twitter
+fr.share_facebook: Partager sur Facebook
+fr.share_linkedin: Partager sur LinkedIn
+fr.share_copy: Copier le lien
+
+// Error messages
+en.error_message: There was an error submitting your petition. Please try again.
+fr.error_message: Il y a eu une erreur lors de la soumission de votre pétition. Veuillez réessayer.
+{}
+
+{footer}
+// English footer content
+en.description: Eurovision Canada is a fan-driven community project aimed at connecting Eurovision fans across Canada.
+en.contact: Contact
+en.contact_email: eurovisioncanada@proton.me
+en.discord: Join our Discord
+en.discord_url: https://discord.gg/EN42KzANJz
+
+// French footer content
+fr.description: Eurovision Canada est un projet communautaire dirigé par des fans visant à connecter les fans d'Eurovision à travers le Canada.
+fr.contact: Contactez-nous
+fr.contact_email: eurovisioncanada@proton.me
+fr.discord: Join our Discord
+fr.discord_url: https://discord.gg/EN42KzANJz
+
+// Common footer elements
+logo_alt: Eurovision Canada logo
+logo_src: /assets/favicon.png
+{}
+
+// Technical configuration
+{config}
+signature_counter_current: 255
+signature_counter_target: 1000
+form_action: https://script.google.com/macros/s/AKfycbzZFU7ik8FAD1I2BAr1kdq2MnrUwqH_rwDG6T5OftErMmG_chfleB1iXoemluPZoB-XTw/exec
+{}
+
+// Social sharing templates
+{social}
+twitter_text: I just signed the petition to bring Canada to Eurovision! Join me and help make Canada part of Europe's biggest music celebration. #CanadaToEurovision #Eurovision2026
+hashtags: #CanadaToEurovision #Eurovision2026 #EurovisionCanada
+{}

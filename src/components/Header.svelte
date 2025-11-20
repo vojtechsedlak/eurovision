@@ -43,36 +43,28 @@
 				class="lang-btn"
 				class:active={currentLanguage === 'en'}
 			>
-				EN
+				{copy.header.language_toggle.en}
 			</button>
-			<span class="lang-separator">|</span>
+			<span class="lang-separator">{copy.header.language_toggle.separator}</span>
 			<button 
 				on:click={() => switchLanguage('fr')}
 				class="lang-btn"
 				class:active={currentLanguage === 'fr'}
 			>
-				FR
+				{copy.header.language_toggle.fr}
 			</button>
 		</div>
 		<div class="container-xxl">
 			<div class="hero row">
 				<div class="col-lg-5 col-md-12 col-sm-12 copy">
-					{#if currentLanguage === 'fr'}
-						<p>LE CANADA</p>
-						<p>A BESOIN DE</p>
-						<img src="/assets/banner.png" alt="Eurovision">
-						<p>A BESOIN DU</p>
-						<p>CANADA</p>
-					{:else}
-						<p>CANADA</p>
-						<p>NEEDS</p>
-						<img src="/assets/banner.png" alt="Eurovision">
-						<p>NEEDS</p>
-						<p>CANADA</p>
-					{/if}
+					<p>{copy.header[currentLanguage].hero.line1}</p>
+					<p>{copy.header[currentLanguage].hero.line2}</p>
+					<img src="/assets/banner.png" alt="Eurovision">
+					<p>{copy.header[currentLanguage].hero.line4}</p>
+					<p>{copy.header[currentLanguage].hero.line5}</p>
 				</div>
 				<div class="col-lg-7 col-md-12 col-sm-12">
-					<img src="/assets/artist.png" alt="{currentLanguage === 'fr' ? 'Eurovision Canada' : 'Eurovision Canada'}">
+					<img src="/assets/artist.png" alt="{copy.header[currentLanguage].alt_text}">
 				</div>
 			</div>
 		</div>
@@ -131,6 +123,7 @@
 
 	.hero {
 		padding-top:100px;
+		padding-left:20px;
 	}
 	
 	.copy {
@@ -177,7 +170,7 @@
 		}
 
 		.copy {
-			padding-top:0px;
+			padding-top:40px;
 			width:100%;
 		}
 		

@@ -10,17 +10,20 @@
   <footer> 
 	<div class="container">
 		<div class="row foot">
-			<div class="col-8 mx-auto">
-				<p><img src="/assets/favicon.png" alt="Eurovision Canada logo"></p>
-				{#if currentLanguage === 'fr'}
-					<p>Eurovision Canada est un projet communautaire dirigé par des fans visant à connecter les fans d'Eurovision à travers le Canada.</p>
-					<p><a href="mailto:eurovisioncanada@proton.me">Contactez-nous</a></p>
-					<p><a href="https://discord.gg/EN42KzANJz" target="_new">Join our Discord</a></p>
-				{:else}
-					<p>Eurovision Canada is a fan-driven community project aimed at connecting Eurovision fans across Canada.</p>
-					<p><a href="mailto:eurovisioncanada@proton.me">Contact</a></p>
-					<p><a href="https://discord.gg/EN42KzANJz" target="_new">Join our Discord</a></p>
-				{/if}
+			<div class="col-lg-8 col-sm-12 mx-auto">
+				<p><img src="{copy.footer.logo_src}" alt="{copy.footer.logo_alt}"></p>
+				<p style="margin-bottom:20px;">{copy.footer[currentLanguage].description}</p>
+				<p><a href="mailto:{copy.footer[currentLanguage].contact_email}">{copy.footer[currentLanguage].contact}</a></p>
+				<p><a href="{copy.footer[currentLanguage].discord_url}" target="_new" on:click={() => {
+					// Track Discord click event
+					if (typeof gtag !== 'undefined') {
+						gtag('event', 'click', {
+							event_category: 'engagement',
+							event_label: 'Discord Join - Footer',
+							transport_type: 'beacon'
+						});
+					}
+				}}>{copy.footer[currentLanguage].discord}</a></p>
 			</div>
 	</div>
 
@@ -42,12 +45,12 @@ footer a {
 }
 
 footer img {
-	max-width:150px;
+	max-width:100px;
 	margin:auto;
 }
 
 footer p {
-	max-width:400px;
+	max-width:500px;
 	text-align:center;
 	margin: auto;
 }

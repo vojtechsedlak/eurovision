@@ -1,16 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 
 <head>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<!-- Performance and Security Headers -->
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://script.google.com https://script.googleusercontent.com https://docs.google.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.googleusercontent.com; frame-src 'self';" />
+	<meta name="referrer" content="strict-origin-when-cross-origin" />
+	
 	%sveltekit.head%
 </head>
 
 <body>
-	<a href="#content" class="skip-to-main">Skip to main content</a>
-	<div>%sveltekit.body%</div>
+	<!-- Accessibility: Skip to main content link -->
+	<a href="#main-content" class="skip-to-main" aria-label="Skip to main content">Skip to main content</a>
+	
+	<!-- Main application container with semantic structure -->
+	<div id="app">%sveltekit.body%</div>
+	
+	<!-- Performance: Preload critical resources -->
+	<script>
+		// Preload critical resources for better performance
+		if ('requestIdleCallback' in window) {
+			requestIdleCallback(() => {
+				// Preload images that might be needed
+				const preloadImages = ['/assets/banner.png', '/assets/og.png'];
+				preloadImages.forEach(src => {
+					const img = new Image();
+					img.src = src;
+				});
+			});
+		}
+		
+		// Service Worker registration for caching (optional future enhancement)
+		// Currently disabled as no sw.js file exists
+		// if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+		// 	window.addEventListener('load', () => {
+		// 		navigator.serviceWorker.register('/sw.js')
+		// 			.then(registration => console.log('SW registered'))
+		// 			.catch(registrationError => console.log('SW registration failed'));
+		// 	});
+		// }
+	</script>
 </body>
 
 </html>

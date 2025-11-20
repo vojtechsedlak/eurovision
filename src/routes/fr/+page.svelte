@@ -8,13 +8,11 @@
 	import analysis from "$data/analysis.csv";
 
 	version();
-
-	const { title, description, url, keywords } = copy;
 	
-	setContext("copy", copy.fr);
+	setContext("copy", copy);
 	setContext("data", analysis);
 	setContext("lang", "fr");
 </script>
 
-<Meta title={copy.fr.Heading} description={copy.fr.Description} {url} {keywords} />
+<Meta />
 <Index />

@@ -10,10 +10,8 @@
 	import { onMount } from 'svelte';
 
 	version();
-
-	const { title, description, url, keywords } = copy;
 	
-	setContext("copy", copy.en);
+	setContext("copy", copy);
 	setContext("data", analysis);
 	setContext("lang", "en");
 </script>

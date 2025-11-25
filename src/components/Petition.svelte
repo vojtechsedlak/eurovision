@@ -96,7 +96,7 @@
 			});
 			
 			if (response.ok) {
-				// Track petition submission conversion event
+				// Track Google Analytics conversion event
 				if (typeof gtag !== 'undefined') {
 					gtag('event', 'petition_submit', {
 						event_category: 'conversion',
@@ -104,6 +104,13 @@
 						value: 1,
 						country: country,
 						language: currentLanguage
+					});
+					
+					// Track Google Ads conversion event
+					gtag('event', 'conversion', {
+						'send_to': 'AW-17759216290/Xv2sCI7v18YbEKLFoJRC',
+						'value': 1.0,
+						'currency': 'CAD'
 					});
 				}
 				

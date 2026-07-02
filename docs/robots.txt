@@ -1,0 +1,40 @@
+# Robots.txt for Eurovision Canada
+User-agent: *
+Allow: /
+
+# Allow all crawlers access to CSS and JS files
+Allow: /assets/
+Allow: /_app/
+
+# Sitemap
+Sitemap: https://eurovisioncanada.ca/sitemap.xml
+
+# Crawl-delay (be respectful to server resources)
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Block known bad bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

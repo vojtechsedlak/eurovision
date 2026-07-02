@@ -15,13 +15,13 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'Twitter',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
 		const text = copy.social.twitter_text;
-		const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}&hashtags=CanadaToEurovision,Eurovision2026,EurovisionCanada`;
+		const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}&hashtags=CanadaToEurovision,Eurovision2027,EurovisionCanada`;
 		window.open(url, '_blank');
 	}
 	
@@ -30,8 +30,8 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'Facebook',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
@@ -44,8 +44,8 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'LinkedIn',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
@@ -60,8 +60,8 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'Reddit',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
@@ -75,8 +75,8 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'WhatsApp',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
@@ -90,8 +90,8 @@
 		if (typeof gtag !== 'undefined') {
 			gtag('event', 'share', {
 				method: 'Copy Link',
-				content_type: 'petition',
-				item_id: 'eurovision_canada_petition'
+				content_type: 'signup',
+				item_id: 'eurovision_canada_updates'
 			});
 		}
 		
@@ -103,12 +103,12 @@
 	
 	const getStartedCopy = {
 		en: {
-			heading: "Thank You for Signing!",
-			subtitle: "Your voice has been added to the movement to bring Canada to Eurovision.",
-			share_heading: "Help Us Reach More Canadians",
-			share_subtitle: "Share this petition with your friends and family to amplify our message:",
+			heading: "You're Signed Up! 🎉",
+			subtitle: "You'll be the first to know about Canada's Eurovision 2027 journey — from artist selection to the big night.",
+			share_heading: "Spread the Word",
+			share_subtitle: "Share the exciting news about Canada's Eurovision debut with your friends and family:",
 			discord_heading: "Join Our Community",
-			discord_subtitle: "Connect with fellow Eurovision fans and stay updated on our campaign:",
+			discord_subtitle: "Connect with fellow Eurovision fans and follow every step of Canada's road to Eurovision 2027:",
 			discord_button: "Join Discord Community",
 			share_buttons: {
 				twitter: "Share on Twitter",
@@ -120,12 +120,12 @@
 			}
 		},
 		fr: {
-			heading: "Merci d'avoir Signé !",
-			subtitle: "Votre voix a été ajoutée au mouvement pour amener le Canada à l'Eurovision.",
-			share_heading: "Aidez-nous à Atteindre Plus de Canadiens",
-			share_subtitle: "Partagez cette pétition avec vos amis et votre famille pour amplifier notre message :",
+			heading: "Vous êtes inscrit ! 🎉",
+			subtitle: "Vous serez le premier informé du parcours Eurovision 2027 du Canada — de la sélection de l'artiste à la grande soirée.",
+			share_heading: "Partagez la Nouvelle",
+			share_subtitle: "Partagez cette nouvelle excitante sur le début du Canada à l'Eurovision avec vos amis et votre famille :",
 			discord_heading: "Rejoignez Notre Communauté",
-			discord_subtitle: "Connectez-vous avec d'autres fans d'Eurovision et restez informé de notre campagne :",
+			discord_subtitle: "Connectez-vous avec d'autres fans d'Eurovision et suivez chaque étape de la route du Canada vers l'Eurovision 2027 :",
 			discord_button: "Rejoindre la Communauté Discord",
 			share_buttons: {
 				twitter: "Partager sur Twitter",

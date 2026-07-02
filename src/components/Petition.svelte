@@ -136,8 +136,8 @@
 					: 'Connection issue. Please check your internet connection and try again.';
 			} else {
 				submissionError = currentLanguage === 'fr'
-					? 'Une erreur s\'est produite lors de l\'envoi de votre pétition. Veuillez réessayer.'
-					: 'There was an error submitting your petition. Please try again.';
+					? 'Une erreur s\'est produite lors de l\'envoi de vos informations. Veuillez réessayer.'
+					: 'There was an error submitting your information. Please try again.';
 			}
 		} finally {
 			isSubmitting = false;
@@ -147,7 +147,7 @@
 </script>
 
 <!-- Enhanced semantic structure for better LLM understanding and accessibility -->
-<section class="petition" itemscope itemtype="https://schema.org/Petition" role="main" aria-labelledby="petition-heading">
+<section class="petition" itemscope itemtype="https://schema.org/WebPage" role="main" aria-labelledby="petition-heading">
 	<div class="container">
 		<div class="petition-content">
 			<!-- Main petition content with structured markup -->

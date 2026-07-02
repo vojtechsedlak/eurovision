@@ -13,14 +13,14 @@
 	// Static text content for different languages
 	const content = {
 		en: {
-			heading: "Eurovision Canada in the Media",
-			subtitle: "See what the press is saying about Canada's Eurovision journey",
+			heading: "Latest Updates",
+			subtitle: "Follow the news about Canada's historic Eurovision 2027 debut",
 			expandText: "Show More Articles",
 			collapseText: "Show Less"
 		},
 		fr: {
-			heading: "Eurovision Canada dans les Médias",
-			subtitle: "Découvrez ce que la presse dit du parcours de l'Eurovision du Canada",
+			heading: "Dernières Nouvelles",
+			subtitle: "Suivez l'actualité du début historique du Canada à l'Eurovision 2027",
 			expandText: "Voir Plus d'Articles",
 			collapseText: "Voir Moins"
 		}

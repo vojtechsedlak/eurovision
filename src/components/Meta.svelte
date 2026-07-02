@@ -9,7 +9,7 @@
 	// Get meta data from copy.json based on current language
 	$: metaData = copy.meta[lang];
 	$: title = metaData?.title || "Eurovision Canada";
-	$: description = metaData?.description || "Let's bring Canada to Eurovision!";
+	$: description = metaData?.description || "Canada is going to Eurovision 2027!";
 	$: ogimage = metaData?.ogimage || "og.png";
 	$: url = copy.meta.url || "https://eurovisioncanada.ca";
 	$: keywords = copy.meta.keywords || "";
@@ -57,7 +57,7 @@
 				"@id": `${url}/#website`,
 				"url": url,
 				"name": "Eurovision Canada",
-				"description": "Let's bring Canada to Eurovision! Sign the petition to show support for Canada's participation in Europe's biggest music celebration.",
+				"description": "It's official! Canada will compete at the Eurovision Song Contest 2027. Stay updated on Canada's historic debut at Europe's biggest music celebration.",
 				"publisher": {
 					"@id": `${url}/#organization`
 				},
@@ -95,11 +95,12 @@
 				"inLanguage": lang === "fr" ? "fr-CA" : "en-CA"
 			},
 			{
-				"@type": "Petition",
-				"@id": `${url}/#petition`,
-				"name": title,
+				"@type": "Event",
+				"@id": `${url}/#event`,
+				"name": "Canada at Eurovision 2027",
 				"description": description,
 				"url": currentUrl,
+				"eventStatus": "https://schema.org/EventScheduled",
 				"about": [
 					{
 						"@type": "Thing",
@@ -122,7 +123,7 @@
 					"@type": "Audience",
 					"name": "Eurovision fans and Canadian music supporters"
 				},
-				"creator": {
+				"organizer": {
 					"@id": `${url}/#organization`
 				}
 			}
@@ -142,8 +143,8 @@
 	<meta name="application-name" content="Eurovision Canada" />
 	
 	<!-- Advanced Meta Tags for LLM Discovery -->
-	<meta name="subject" content="Eurovision Song Contest Canada Petition Campaign" />
-	<meta name="classification" content="Petition, Music, Eurovision, Canada, Cultural Exchange" />
+	<meta name="subject" content="Eurovision Song Contest Canada 2027 Debut" />
+	<meta name="classification" content="Music, Eurovision, Canada, Eurovision 2027, Cultural Exchange" />
 	<meta name="category" content="Music Entertainment" />
 	<meta name="coverage" content="Worldwide" />
 	<meta name="distribution" content="Global" />
